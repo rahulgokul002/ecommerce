@@ -17,9 +17,7 @@ Route::get('/', function () {
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/dashboard', [ProductController::class, 'dashboard'])
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+
 // Route::get('/dashboard', function () {
 //     $products = Product::all(); // fetch all products
 
@@ -33,6 +31,9 @@ Route::get('/dashboard', [ProductController::class, 'dashboard'])
 // Route::get('/', [ProductController::class, 'index'])->name('products.list');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [ProductController::class, 'dashboard'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::get('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
     Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');

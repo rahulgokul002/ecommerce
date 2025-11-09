@@ -10,9 +10,27 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    public function dashboard()
+    public function dashboard(Request $request)
     {
-        $products = Product::all();
+        $query = Product::query();
+
+        if ($request->filled('min_price')) {
+            $query->where('price', '>=', $request->min_price);
+        }
+
+        if ($request->filled('max_price')) {
+            $query->where('price', '<=', $request->max_price);
+        }
+
+        if ($request->filled('availability')) {
+            if ($request->availability === 'in') {
+                $query->where('quantity', '>', 0);
+            } elseif ($request->availability === 'out') {
+                $query->where('quantity', '=', 0);
+            }
+        }
+
+        $products = $query->get();
 
         if (Auth::user()->role === 'admin') {
             return view('admin.dashboard', compact('products'));
@@ -20,6 +38,7 @@ class ProductController extends Controller
             return view('dashboard', compact('products'));
         }
     }
+
 
     /**
      * Display a listing of the resource.
