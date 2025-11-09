@@ -14,22 +14,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-// Route::get('/dashboard', function () {
-//     $products = Product::all(); // fetch all products
-
-//     // check if logged-in user is admin or normal user
-//     if (Auth::user()->role === 'admin') {
-//         return view('admin.dashboard', compact('products'));
-//     } else {
-//         return view('dashboard', compact('products'));
-//     }
-// })->middleware(['auth', 'verified'])->name('dashboard');
-// Route::get('/', [ProductController::class, 'index'])->name('products.list');
-
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [ProductController::class, 'dashboard'])
     ->middleware(['auth', 'verified'])
@@ -40,15 +24,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 
     Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('order.place');
-    Route::get('/orders', [OrderController::class, 'history'])->name('orders.history');
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.history');
 });
-// Route::middleware(['auth', 'admin'])->group(function () {
-//     Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products');
-// });
+
 Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products');
-
-    
+    Route::get('/reports', [ProductController::class, 'report'])->name('admin.reports');
     Route::resource('products', ProductController::class)->names('admin.products');
 });
 

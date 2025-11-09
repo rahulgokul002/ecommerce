@@ -25,12 +25,19 @@
 <body>
 <nav class="navbar navbar-expand-lg">
   <div class="container-fluid">
-    <a class="navbar-brand fw-bold" href="{{ url('/') }}">E-Commerce</a>
+    <a class="navbar-brand fw-bold" href="{{ url('/dashboard') }}">E-Commerce Dashboard</a>
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav ms-auto">
         @auth
-        <li class="nav-item"><a href="" class="nav-link">Cart</a></li>
-        <li class="nav-item"><a href="" class="nav-link">My Orders</a></li>
+          @if(Auth::user()->role === 'user')
+              <li class="nav-item"><a href="{{ route('cart.index') }}" class="nav-link">Cart</a></li>
+              <li class="nav-item"><a href="{{ route('orders.history') }}" class="nav-link">My Orders</a></li>
+          @endif
+
+          @if(Auth::user()->role === 'admin')
+              <li class="nav-item"><a href="{{ route('admin.products') }}" class="nav-link">Manage Products</a></li>
+              <li class="nav-item"><a href="{{ route('admin.reports') }}" class="nav-link">Reports</a></li>
+          @endif
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{{ Auth::user()->name }}</a>
           <ul class="dropdown-menu dropdown-menu-end">
@@ -38,7 +45,7 @@
               <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
-                    <button type="submit" class="dropdown-item w-100 text-start">
+                    <button type="submit" class="dropdown-item text-dark">
                         {{ __('Log Out') }}
                     </button>
                 </form></li>
