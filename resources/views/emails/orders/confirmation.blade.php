@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Order Confirmation</title>
+<title>Order Confirmation</title>
 </head>
 <body style="font-family: Arial, sans-serif;">
-    <h2>Thank you for your order, {{ $order->user->name }}!</h2>
+<h2>Thank you for your order, {{ $order->user->name }}!</h2>
 
-    <p>Your order has been successfully placed.</p>
+<p>Your order has been successfully placed.</p>
 
     <p><strong>Order ID:</strong> #{{ $order->id }}</p>
     <p><strong>Total Amount:</strong> ₹{{ number_format($order->total_amount, 2) }}</p>

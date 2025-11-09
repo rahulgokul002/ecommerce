@@ -15,7 +15,7 @@ class AdminMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next)
-    {echo "admin middleware called"; exit;
+    {
         if (Auth::check() && Auth::user()->role === 'admin') {
             return $next($request);
         }
